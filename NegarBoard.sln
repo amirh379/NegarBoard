@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.12.35707.178 d17.12
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{EA8C2299-2CA3-4B4D-ADA3-5BC52A30ADEE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NegarBoard.Api", "src\NegarBoard.Api\NegarBoard.Api.csproj", "{FE157240-F06B-4330-8C30-2A6ABFD97529}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NegarBoard.Application", "src\NegarBoard.Application\NegarBoard.Application.csproj", "{D39E701A-EC5F-4C72-969D-6242E1A728CA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FE157240-F06B-4330-8C30-2A6ABFD97529}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FE157240-F06B-4330-8C30-2A6ABFD97529}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FE157240-F06B-4330-8C30-2A6ABFD97529}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FE157240-F06B-4330-8C30-2A6ABFD97529}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D39E701A-EC5F-4C72-969D-6242E1A728CA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D39E701A-EC5F-4C72-969D-6242E1A728CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D39E701A-EC5F-4C72-969D-6242E1A728CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D39E701A-EC5F-4C72-969D-6242E1A728CA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{FE157240-F06B-4330-8C30-2A6ABFD97529} = {EA8C2299-2CA3-4B4D-ADA3-5BC52A30ADEE}
+		{D39E701A-EC5F-4C72-969D-6242E1A728CA} = {EA8C2299-2CA3-4B4D-ADA3-5BC52A30ADEE}
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,9 @@
+@NegarBoard.Api_HostAddress = https://localhost:7152
+
+GET {{NegarBoard.Api_HostAddress}}/api/test/ping
+
+###
+
+GET {{NegarBoard.Api_HostAddress}}/api/test/dapper
+
+###
