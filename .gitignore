@@ -365,3 +365,4 @@ FodyWeavers.xsd
 /.vs/OnlineStore/DesignTimeBuild/.dtbcache.v2
 /.vs/OnlineStore/config/applicationhost.config
 /src/NegarBoard.Api/Controllers/TestController.cs
+/src/TestConsoleApp/TestConsoleApp.csproj
