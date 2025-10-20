@@ -1,0 +1,67 @@
+﻿@page "/tables"
+@inject NavigationManager NavigationManager
+@inject HttpClient Http
+@rendermode InteractiveServer
+
+<h3>Available Tables</h3>
+
+<table class="table table-striped table-hover">
+    <thead>
+        <tr>
+            <th>Table Name</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var tableName in tablesName)
+        {
+            <tr>
+                <td>
+                    <!-- Clickable link to navigate with parameter -->
+                    <a @onclick="() => NavigateToTableRows(tableName)" style="cursor:pointer">
+                        @tableName
+                    </a>
+                </td>
+                <td>
+                    <button class="btn btn-sm btn-warning" @onclick="() => UpdateTable(tableName)">Update</button>
+                    <button class="btn btn-sm btn-danger" @onclick="() => DeleteTable(tableName)">Delete</button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@code {
+    List<string> tablesName = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        var response = await Http.GetAsync($"api/dynamicdata/tables");
+        if (response.IsSuccessStatusCode && response.Content != null)
+        {
+            var tableNamesJson = await response.Content.ReadFromJsonAsync<List<string>>();
+            if (tableNamesJson is not null)
+            {
+                tablesName = tableNamesJson;
+            }
+        }
+        // tablesName = await databaseService.GetTablesNameAsync();
+    }
+
+    private void NavigateToTableRows(string tableName)
+    {
+        NavigationManager.NavigateTo($"/tablerows/{tableName}");
+    }
+
+    private void UpdateTable(string tableName)
+    {
+        // TODO: Implement update logic (e.g., open modal or navigate to edit page)
+        Console.WriteLine($"Update {tableName}");
+    }
+
+    private void DeleteTable(string tableName)
+    {
+        // TODO: Implement delete logic (e.g., call service to drop table)
+        Console.WriteLine($"Delete {tableName}");
+    }
+}

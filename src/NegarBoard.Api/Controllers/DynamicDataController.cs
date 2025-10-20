@@ -26,8 +26,8 @@ namespace NegarBoard.Api.Controllers
             return Ok();
         }
 
-        [HttpGet("query")]
-        public async Task<IActionResult> GetAllFromTable([FromQuery] string tableName)
+        [HttpGet("query/{tableName}")]
+        public async Task<IActionResult> GetAllFromTable(string tableName)
         {
             var result = await _databaseService.GetAllFromTableAsync(tableName);
             return Ok(result);
@@ -40,8 +40,8 @@ namespace NegarBoard.Api.Controllers
             return Ok(result);
         }
 
-        [HttpGet("table-columns")]
-        public async Task<IActionResult> GetTableColumns([FromQuery] string tableName)
+        [HttpGet("table-columns/{tableName}")]
+        public async Task<IActionResult> GetTableColumns(string tableName)
         {
             var result = await _databaseService.GetTableColumnsAsync(tableName);
             return Ok(result);

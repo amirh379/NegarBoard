@@ -56,7 +56,7 @@ public class DatabaseService : IDatabaseService
 
         Debug.WriteLine(sql);
         await _db.ExecuteAsync(sql);
-    }   
+    }
     public async Task InsertToTableAsync(RequestInsertTableModel insertModel)
     {
         await ValidateColumnsAsync(insertModel.Name, insertModel.Values.Keys);
@@ -104,13 +104,15 @@ public class DatabaseService : IDatabaseService
 
         if (invalidKeys.Any())
             throw new ArgumentException($"Invalid columns: {string.Join(", ", invalidKeys)}");
-    }    
+    }
     public async Task<IEnumerable<IDictionary<string, object>>> GetAllFromTableAsync(string tableName)
     {
         // Validate table exists
+        //TABLE_SCHEMA = 'dbo' can add if needed
         var sqlCheck = @"SELECT 1 
-                     FROM INFORMATION_SCHEMA.TABLES 
-                     WHERE TABLE_SCHEMA = 'dbo' AND TABLE_NAME = @TableName";
+                        FROM INFORMATION_SCHEMA.TABLES 
+                        WHERE                         
+                        TABLE_NAME = @TableName";
         var exists = await _db.ExecuteScalarAsync<int?>(sqlCheck, new { TableName = tableName });
         if (exists == null)
             throw new ArgumentException($"Table '{tableName}' does not exist.");
@@ -273,7 +275,7 @@ public class DatabaseService : IDatabaseService
             throw new ArgumentException("Table name cannot be empty.");
 
         var sql = $"DELETE FROM {tableName} WHERE Id = @Id;";
-        
+
         Debug.WriteLine(sql);
         await _db.ExecuteAsync(sql, new { rowId });
     }

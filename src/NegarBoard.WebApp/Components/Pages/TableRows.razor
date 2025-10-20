@@ -1,0 +1,69 @@
+﻿@page "/tablerows/{TableName}"
+@inject HttpClient Http
+@inject NavigationManager NavigationManager
+@rendermode InteractiveServer
+
+<h3>Rows of @TableName</h3>
+
+<button type="button" class="btn btn-primary" @onclick="() => NavigateToDynamicInsert()">Add Row</button>
+@if (rows is null)
+{
+    <p><em>Loading...</em></p>
+}
+else if (!rows.Any())
+{
+    <p>No data found in this table.</p>
+}
+else
+{
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                @foreach (var col in rows.First().Keys)
+                {
+                    <th>@col</th>
+                }
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var row in rows)
+            {
+                <tr>
+                    @foreach (var value in row.Values)
+                    {
+                        <td>@value</td>
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    [Parameter] public string TableName { get; set; } = string.Empty;
+
+    IEnumerable<IDictionary<string, object>> rows;
+    protected override async Task OnInitializedAsync()
+    {
+        var response = await Http.GetAsync($"api/dynamicdata/query/{TableName}");
+        if (response.IsSuccessStatusCode && response.Content != null)
+        {
+            var tableRowsJson = await response.Content.ReadFromJsonAsync<IEnumerable<IDictionary<string, object>>>();
+            if (tableRowsJson is not null)
+            {
+                rows = tableRowsJson;
+            }
+        }
+    }
+    protected override async Task OnParametersSetAsync()
+    {
+        // Example: fetch rows dynamically
+        
+
+       // rows = await databaseService.GetAllFromTableAsync(TableName);
+    }
+    private void NavigateToDynamicInsert()
+    {
+        NavigationManager.NavigateTo($"/dynamic-insert/{TableName}");
+    }
+}

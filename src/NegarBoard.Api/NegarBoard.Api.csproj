@@ -8,13 +8,12 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="9.0.10" />
-    <PackageReference Include="Microsoft.Data.SqlClient" Version="6.1.2" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.10" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="9.0.6" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\NegarBoard.Application\NegarBoard.Application.csproj" />
+    <ProjectReference Include="..\NegarBoard.Infrastructure\NegarBoard.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

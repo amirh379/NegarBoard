@@ -1,4 +1,4 @@
-﻿namespace NegarBoard.Application.Models;
+﻿namespace NegarBoard.WebApp.Models;
 
 public record ColumnMetadata
 {

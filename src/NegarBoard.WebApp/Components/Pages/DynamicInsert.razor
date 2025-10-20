@@ -1,0 +1,103 @@
+﻿@page "/dynamic-insert/{TableName}"
+@using NegarBoard.WebApp.Models
+@rendermode InteractiveServer
+@inject HttpClient Http
+@inject NavigationManager NavigationManager
+
+<h3>Insert into @TableName</h3>
+
+<EditForm EditContext="@editContext" >
+    <div class="form-group">
+        @foreach (var col in tableColumns)
+        {
+            if (col.IsIdentity) //to avoid add id
+            {
+                continue;
+            }
+
+            <div class="mb-3">
+                <label>@col.Name (@col.DataType)</label>
+
+                @switch (col.DataType.ToLower())
+                {
+                    case "int":
+                        <InputNumber @bind-Value="col.InputNumberValue" class="form-control" />                        
+                        break;
+
+                     case "nvarchar":
+                        <InputText @bind-Value="col.InputStringValue" class="form-control" />
+                        break;
+
+                    case "bit":
+                        <InputNumber @bind-Value="col.InputNumberValue" class="form-control" />                                                
+                        break; 
+
+                    default:
+                        <InputText @bind-Value="col.InputStringValue" class="form-control" />
+                        break;
+                }
+            </div>
+        }
+    </div>
+
+    <div class="mt-3">
+        <button type="button" @onclick="HandleSubmit" class="btn btn-primary">Submit</button>
+    </div>
+</EditForm>
+
+@code {
+    [Parameter] public string TableName { get; set; }
+
+    EditContext? editContext;
+    List<ColumnMetadata> tableColumns = new();
+
+    protected override void OnInitialized()
+    {
+        editContext = new EditContext(tableColumns);
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        var response = await Http.GetAsync($"api/dynamicdata/table-columns/{TableName}");
+        if (response.IsSuccessStatusCode && response.Content != null)
+        {
+            var columns = await response.Content.ReadFromJsonAsync<List<ColumnMetadata>>();
+            if (columns is not null)
+            {
+                tableColumns = columns;
+            }
+        }
+        await base.OnInitializedAsync();
+    }
+
+    private async Task HandleSubmit()
+    {
+        var insertTableModel = new RequestInsertTableModel { Name = TableName };
+        foreach (var col in tableColumns.Where(c => !c.IsIdentity))
+        {
+           @switch(col.DataType.ToLower())
+                {
+                case "int":
+                    insertTableModel.Values.Add(col.Name, col.InputNumberValue);
+                    continue;
+
+                case "nvarchar":
+                    insertTableModel.Values.Add(col.Name, col.InputStringValue);
+                    break;
+
+                case "bit":
+                    insertTableModel.Values.Add(col.Name, col.InputNumberValue);
+                    break;
+
+                default:
+                    insertTableModel.Values.Add(col.Name, col.InputStringValue);
+                    break;
+            }
+        }
+        var response = await Http.PostAsJsonAsync("api/DynamicData/insert", insertTableModel);
+        if (response.IsSuccessStatusCode)
+        {
+            NavigationManager.NavigateTo($"/tablerows/{TableName}");
+        }
+    }
+}
